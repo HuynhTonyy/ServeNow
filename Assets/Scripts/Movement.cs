@@ -53,10 +53,11 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            float rotateDir = (moveDir - transform.position).magnitude;
-            if (transform.rotation.y + 3 < moveDir.magnitude || transform.rotation.y - 3 > moveDir.magnitude) {
-                float angle = rotateDir * Time.deltaTime * rotateSpeed;
-                transform.Rotate(Vector3.up,angle);
+            float rotateDir = moveDir.magnitude;
+            if (rotateDir > 0.01f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
             }
             Vector3 force = accelerateSpeed * Time.deltaTime * moveDir;
             rigidbody.AddForce(force, ForceMode.Impulse);
