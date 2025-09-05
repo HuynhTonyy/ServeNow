@@ -1,16 +1,26 @@
+using System;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static EventManager Instance;
+    public event Func<PoolType,Vector3,Quaternion,GameObject> onSpawnObject;
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    #region Object Event
+    public GameObject SpawnObject(PoolType poolType,Vector3 position,Quaternion rotation)
     {
-        
+        return Instance.onSpawnObject?.Invoke(poolType,position,rotation);
     }
+    #endregion
 }
