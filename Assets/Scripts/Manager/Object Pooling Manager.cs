@@ -1,17 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-public enum PoolType
-{
-    Lecttuce,
-}
-[System.Serializable]
-public struct Pool
-{
-    public PoolType poolType;
-    public int size;
-    public GameObject prefab;
-}
+
 public class ObjectPoolingManager : MonoBehaviour
 {
     private static ObjectPoolingManager Instance;
@@ -56,17 +46,42 @@ public class ObjectPoolingManager : MonoBehaviour
             poolsDictionary.Add(pool.poolType, objectsPool);
         }
     }
-    private GameObject SpawnObject(PoolType poolType, Vector3 position, Quaternion rotation)
+    private GameObject SpawnObject(PoolType poolType, Vector3 position, Quaternion rotation, Transform parrent = null)
     {
         if (!poolsDictionary.ContainsKey(poolType))
         {
             Debug.Log("Pool type not found! - " + poolType);
             return null;
         }
+        if (poolsDictionary[poolType].Count <= 0)
+        {
+            Debug.Log("No more object to use");
+            return null;
+        }
         GameObject obj = poolsDictionary[poolType].Dequeue();
-        obj.transform.position = position;
-        obj.transform.rotation = rotation;
         obj.SetActive(true);
+        if (parrent != null)
+        {
+            obj.transform.parent = parrent;
+        }
+        else
+        {
+            obj.transform.parent = transform;
+        }
+        obj.transform.localPosition = position;
+        obj.transform.localRotation = rotation;
         return obj;
     }
+}
+public enum PoolType
+{
+    Lecttuce,
+    Potato
+}
+[System.Serializable]
+public struct Pool
+{
+    public PoolType poolType;
+    public int size;
+    public GameObject prefab;
 }

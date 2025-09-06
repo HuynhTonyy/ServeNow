@@ -1,15 +1,9 @@
 using UnityEngine;
 public class Crate : MonoBehaviour, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private PoolType poolType;
+    public void Interact(Transform parent)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EventManager.Instance.SpawnObject(poolType, Vector3.up*2.5f, Quaternion.identity, parent);
     }
 }

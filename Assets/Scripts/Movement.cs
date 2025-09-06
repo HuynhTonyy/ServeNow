@@ -17,36 +17,17 @@ public class Movement : MonoBehaviour
     {
         rigidbody.maxLinearVelocity = maxSpeed;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MoveControl();
+    private void OnEnable() {
+        EventManager.Instance.onInputMove += MoveControl;
     }
-    private void MoveControl()
+    private void OnDisable() {
+        EventManager.Instance.onInputMove -= MoveControl;
+    }
+    
+    private void MoveControl(Vector2 inputMoveDir)
     {
-        animator.SetFloat("velocity",rigidbody.linearVelocity.magnitude);
-        Vector3 up = Vector3.zero;
-        Vector3 down = Vector3.zero;
-        Vector3 left = Vector3.zero;
-        Vector3 right = Vector3.zero;
-        if (Keyboard.current.wKey.isPressed)
-        {
-            up = Vector3.forward;
-        }
-        if (Keyboard.current.sKey.isPressed)
-        {
-            down = Vector3.back;
-        }
-        if (Keyboard.current.aKey.isPressed)
-        {
-            left = Vector3.left;
-        }
-        if (Keyboard.current.dKey.isPressed)
-        {
-            right = Vector3.right;
-        }
-        Vector3 moveDir = up + down + left + right;
+        animator.SetFloat("velocity", rigidbody.linearVelocity.magnitude);
+        Vector3 moveDir = new Vector3(inputMoveDir.x, 0, inputMoveDir.y);
         if (moveDir == Vector3.zero)
         {
             rigidbody.linearVelocity = Vector3.zero;
