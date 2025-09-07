@@ -72,6 +72,23 @@ public class ObjectPoolingManager : MonoBehaviour
         obj.transform.localRotation = rotation;
         return obj;
     }
+    private void StoreObject(PoolType poolType,GameObject storeObject)
+    {
+        storeObject.transform.parent = transform;
+        storeObject.transform.position = Vector3.zero;
+        storeObject.transform.rotation = Quaternion.identity;
+        if (!poolsDictionary.ContainsKey(poolType))
+        {
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+            newQueue.Enqueue(storeObject);
+            poolsDictionary.Add(poolType, newQueue);
+        }
+        else
+        {
+            poolsDictionary[poolType].Enqueue(storeObject);
+        }
+        storeObject.SetActive(false);
+    }
 }
 public enum PoolType
 {

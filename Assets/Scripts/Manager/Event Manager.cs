@@ -7,6 +7,8 @@ public class EventManager : MonoBehaviour
     public event Func<PoolType, Vector3, Quaternion, Transform, GameObject> onSpawnObject;
     public event Action onInteract;
     public event Action<Vector2> onInputMove;
+    public event Action<GameObject> onPickUpCarriedObject;
+    public event Action onClearCrarriedObject;
 
     private void Awake()
     {
@@ -20,22 +22,30 @@ public class EventManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    #region Object Event
+    #region Pooling Event
     public GameObject SpawnObject(PoolType poolType, Vector3 position, Quaternion rotation, Transform transform)
     {
         return Instance.onSpawnObject?.Invoke(poolType, position, rotation, transform);
     }
     #endregion
-    #region Interact
-    public void Interact()
+    #region Input Event
+    public void InputInteract()
     {
         Instance.onInteract?.Invoke();
     }
-    #endregion
-    #region Input
     public void InputMove(Vector2 moveDir)
     {
         Instance.onInputMove?.Invoke(moveDir);
+    }
+    #endregion
+    #region Interact Event
+    public void PickupCarriedObject(GameObject gameObject)
+    {
+        Instance.onPickUpCarriedObject?.Invoke(gameObject);
+    }
+    public void ClearCarriedObject()
+    {
+        Instance.onClearCrarriedObject?.Invoke();
     }
     #endregion
 }

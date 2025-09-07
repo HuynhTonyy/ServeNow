@@ -9,19 +9,27 @@ public class Interact : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Vector3 offset;
     [SerializeField] private int rayNum = 1;
-    [SerializeField, Range(1,90)] private float angle;
+    [SerializeField, Range(1, 90)] private float angle;
     private Coroutine coroutine;
     private IInteractable interactable = null;
+    private GameObject carriedObject = null;
+    [SerializeField] private Vector3 holdingPos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         coroutine = StartCoroutine(RaycastLoop());
     }
-    private void OnEnable() {
+    private void OnEnable()
+    {
         EventManager.Instance.onInteract += ExecuteInteract;
+        EventManager.Instance.onPickUpCarriedObject += PickupCarriedObject;
+        EventManager.Instance.onClearCrarriedObject += ClearCarriedObject;
     }
     private void OnDisable()
     {
+        EventManager.Instance.onInteract -= ExecuteInteract;
+        EventManager.Instance.onPickUpCarriedObject -= PickupCarriedObject;
+        EventManager.Instance.onClearCrarriedObject -= ClearCarriedObject;
         StopCoroutine(coroutine);
     }
     // Update is called once per frame
@@ -33,7 +41,7 @@ public class Interact : MonoBehaviour
         }
         else
         {
-            interactable.Interact(transform);
+            interactable.Interact(transform, carriedObject);
         }
     }
     IEnumerator RaycastLoop()
@@ -66,6 +74,16 @@ public class Interact : MonoBehaviour
             float sectionAngle = Mathf.Lerp(-angle, angle, sectionPropotion * i);
             Vector3 direction = Quaternion.Euler(0, sectionAngle, 0) * transform.forward;
             Debug.DrawRay(transform.position + offset, direction * maxDistance, Color.white, 0.1f);
-        }   
+        }
+    }
+    private void PickupCarriedObject(GameObject pickupObj)
+    {
+        carriedObject = pickupObj;
+        carriedObject.transform.parent = transform;
+        carriedObject.transform.SetLocalPositionAndRotation(holdingPos, Quaternion.identity);
+    }
+    private void ClearCarriedObject()
+    {
+        carriedObject = null;
     }
 }

@@ -24,7 +24,6 @@ public class InputHandler : MonoBehaviour
     }
     private void Interact(InputAction.CallbackContext context)
     {
-        Debug.Log("Press E");
-        EventManager.Instance.Interact();
+        EventManager.Instance.InputInteract();
     }
 }
