@@ -4,8 +4,9 @@ using UnityEngine;
 public class Counter : MonoBehaviour, IInteractable
 {
     [SerializeField] private Vector3 offset;
-    private GameObject carriedObject = null;
-    public void Interact(Transform interacterTransform, GameObject currentObject)
+    protected GameObject carriedObject = null;
+    protected ItemData itemData = null;
+    public virtual void Interact(Transform interacterTransform, ItemData newItemData, GameObject currentObject)
     {
         if (currentObject != null && carriedObject == null)
         {
@@ -14,13 +15,15 @@ public class Counter : MonoBehaviour, IInteractable
             currentTransform.parent = transform;
             currentTransform.localPosition = offset;
             carriedObject = currentObject;
+            itemData = newItemData;
             EventManager.Instance.ClearCarriedObject();
         }
         else if (currentObject == null && carriedObject != null)
         {
             //Pickup object from counter
-            EventManager.Instance.PickupCarriedObject(carriedObject);
+            EventManager.Instance.PickupCarriedObject(carriedObject, itemData);
             carriedObject = null;
+            itemData = null;
 
         }
         else if (currentObject == null && carriedObject == null)
@@ -30,10 +33,8 @@ public class Counter : MonoBehaviour, IInteractable
         else if (currentObject != null && carriedObject != null)
         {
 
-            Debug.Log("Counter is full!");
+            Debug.Log("Counter is orcupied!");
         }
-        
     }
-
     
 }

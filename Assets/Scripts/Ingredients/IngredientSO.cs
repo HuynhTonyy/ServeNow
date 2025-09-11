@@ -1,21 +1,31 @@
+using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Scriptable Object", menuName = "IngredientSO", order = 1)]
-public class IngredientSO : ScriptableObject
+public class IngredientSO : ItemData
 {
-    [SerializeField] private string name;
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private PrepType prepType;
+    [SerializeField] private Dictionary<PrepType, GameObject> prepTypes;
+    [SerializeField] private PrepType currentPrep;
     [SerializeField] private PoolType poolType;
-    [SerializeField] private CookState cookState;
+    public void SetPoolType(PoolType newPoolType)
+    {
+        poolType = newPoolType;
+    }
+    public PoolType GetPoolType()
+    {
+        return poolType;
+    }
+    public void SetCurrentPrep(PrepType newPrep)
+    {
+        currentPrep = newPrep;
+    }
+    public PrepType GetCurrentPrepType()
+    {
+        return currentPrep;
+    }
 }
 public enum PrepType {
     None,
     Slice,
     Chop,
     Smash
-}
-public enum CookState {
-    Fresh,
-    Cook,
-    Burn
 }

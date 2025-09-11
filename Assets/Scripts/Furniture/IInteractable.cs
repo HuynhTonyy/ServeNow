@@ -1,5 +1,5 @@
 using UnityEngine;
 public interface IInteractable
 {
-    void Interact(Transform interacterTransform, GameObject objectToSend = null);
+    void Interact(Transform interacterTransform, ItemData itemData = null, GameObject objectToSend = null);
 }
