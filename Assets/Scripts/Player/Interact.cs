@@ -16,12 +16,12 @@ public class Interact : MonoBehaviour
     [SerializeField] private Vector3 holdingPos;
     [SerializeField] private string selectTag;
     GameObject selectObj = null;
-    GameObject highligh = null;
-    ItemData itemData = null;
+    [SerializeField] private GameObject highligh;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         coroutine = StartCoroutine(RaycastLoop());
+        highligh.SetActive(false);
     }
     private void OnEnable()
     {
@@ -48,7 +48,7 @@ public class Interact : MonoBehaviour
         }
         else
         {
-            interactable.Interact(transform,itemData, carriedObject);
+            interactable.Interact(transform, carriedObject);
         }
     }
     IEnumerator RaycastLoop()
@@ -75,11 +75,10 @@ public class Interact : MonoBehaviour
     private void SearchForInteract()
     {
         bool found = false;
-        if (selectObj && highligh && highligh.CompareTag(selectTag))
+        if (selectObj)
         {
             highligh.SetActive(false);
             selectObj = null;
-            highligh = null;
         }
         float sectionPropotion = 1f / (rayNum + 1);
         for (int i = 1; i <= rayNum; i++)
@@ -89,18 +88,19 @@ public class Interact : MonoBehaviour
             if (Physics.Raycast(transform.position + offset, direction, out RaycastHit hit, maxDistance, layerMask))
             {
                 selectObj = hit.transform.gameObject;
-                highligh = selectObj.transform.childCount > 0 ? selectObj.transform.GetChild(0).gameObject : null;
+                highligh.transform.position = selectObj.transform.position;
+                highligh.transform.rotation = selectObj.transform.rotation;
+                highligh.GetComponent<MeshFilter>().mesh = selectObj.GetComponent<MeshFilter>().mesh;
                 found = true;
             }
         }
         if (!found)
         {
             selectObj = null;
-            highligh = null;
         }
         else
         {
-            if (selectObj && highligh && highligh.CompareTag(selectTag))
+            if (selectObj)
             {
                 highligh.SetActive(true);
             }
@@ -118,9 +118,8 @@ public class Interact : MonoBehaviour
             Debug.DrawRay(transform.position + offset, direction * maxDistance, Color.white, 0.1f);
         }
     }
-    private void PickupCarriedObject(GameObject pickupObj, ItemData newItemData)
+    private void PickupCarriedObject(GameObject pickupObj)
     {
-        itemData = newItemData;
         carriedObject = pickupObj;
         carriedObject.transform.parent = transform;
         carriedObject.transform.SetLocalPositionAndRotation(holdingPos, Quaternion.identity);
@@ -128,6 +127,5 @@ public class Interact : MonoBehaviour
     private void ClearCarriedObject()
     {
         carriedObject = null;
-        itemData = null;
     }
 }

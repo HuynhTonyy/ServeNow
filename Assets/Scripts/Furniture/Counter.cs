@@ -5,8 +5,7 @@ public class Counter : MonoBehaviour, IInteractable
 {
     [SerializeField] private Vector3 offset;
     protected GameObject carriedObject = null;
-    protected ItemData itemData = null;
-    public virtual void Interact(Transform interacterTransform, ItemData newItemData, GameObject currentObject)
+    public virtual void Interact(Transform interacterTransform, GameObject currentObject)
     {
         if (currentObject != null && carriedObject == null)
         {
@@ -15,15 +14,13 @@ public class Counter : MonoBehaviour, IInteractable
             currentTransform.parent = transform;
             currentTransform.localPosition = offset;
             carriedObject = currentObject;
-            itemData = newItemData;
             EventManager.Instance.ClearCarriedObject();
         }
         else if (currentObject == null && carriedObject != null)
         {
             //Pickup object from counter
-            EventManager.Instance.PickupCarriedObject(carriedObject, itemData);
+            EventManager.Instance.PickupCarriedObject(carriedObject);
             carriedObject = null;
-            itemData = null;
 
         }
         else if (currentObject == null && carriedObject == null)

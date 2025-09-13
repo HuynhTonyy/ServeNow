@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -48,9 +48,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 1248470225760746991, guid: b48ade1625d02dc4599ccd841ad7e697, type: 3}
     - target: {fileID: 919132149155446097, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_Name
-      value: crate_lettuce
+      value: crate_onion
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_Layer
@@ -105,4 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d083ccab3b8053f43bfec3537463dc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 411013724427624689, guid: 397cee64c8794bb4d982cbb411610cff, type: 3}
+  item: {fileID: 411013724427624689, guid: ecb4e4b3ecc66b64084f985087fc9eaf, type: 3}

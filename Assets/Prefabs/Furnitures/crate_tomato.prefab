@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.5
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -48,9 +48,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3740409364956900546, guid: ed83bf30e0e5139468f6b5c60c8ca807, type: 3}
     - target: {fileID: 919132149155446097, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_Name
-      value: crate_lettuce
+      value: crate_tomato
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8012e0ab39640ac41a687c5722e29210, type: 3}
       propertyPath: m_Layer
@@ -105,4 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d083ccab3b8053f43bfec3537463dc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 411013724427624689, guid: 397cee64c8794bb4d982cbb411610cff, type: 3}
+  item: {fileID: 411013724427624689, guid: 08410d81cdb02f8488c5418041bcf235, type: 3}

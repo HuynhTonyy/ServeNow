@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Crate : MonoBehaviour, IInteractable
 {
-    [SerializeField] private ItemData itemData;
-    public void Interact(Transform parent, ItemData neItemData,GameObject currentObject)
+    [SerializeField] private ItemHolder item;
+    public void Interact(Transform parent,GameObject currentObject)
     {
         if (currentObject == null)
         {
-            GameObject spawnedObj = EventManager.Instance.SpawnObject(((IngredientSO)itemData).GetPoolType(), Vector3.zero, Quaternion.identity, parent);
-            EventManager.Instance.PickupCarriedObject(spawnedObj,itemData);
+            GameObject spawnedObj = EventManager.Instance.SpawnObject(item.GetPoolType(), Vector3.zero, Quaternion.identity, parent);
+            EventManager.Instance.PickupCarriedObject(spawnedObj);
         }
         else
         {

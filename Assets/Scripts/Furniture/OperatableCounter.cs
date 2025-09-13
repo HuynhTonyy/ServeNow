@@ -7,9 +7,9 @@ public abstract class OperatableCounter : Counter
     float operateTimeLeft = 0;
     protected bool done = false;
     protected IOperate operatedObj = new IOperate();
-    public override void Interact(Transform interacterTransform, ItemData newItemData,GameObject currentObject)
+    public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
-        base.Interact(interacterTransform,newItemData, currentObject);
+        base.Interact(interacterTransform, currentObject);
         done = false;
         operateTimeLeft = 0;
     }

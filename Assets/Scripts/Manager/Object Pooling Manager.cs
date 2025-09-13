@@ -93,7 +93,9 @@ public class ObjectPoolingManager : MonoBehaviour
 public enum PoolType
 {
     Lecttuce,
-    Potato
+    Potato,
+    Tomato,
+    Onion
 }
 [System.Serializable]
 public struct Pool

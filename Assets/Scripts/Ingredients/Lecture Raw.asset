@@ -10,9 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61e527324f92c924d8b947dbe2624e29, type: 3}
-  m_Name: Lecture
+  m_Name: Lecture Raw
   m_EditorClassIdentifier: 
-  name: Cabbage
-  prefab: {fileID: 0}
-  currentPrep: 1
+  currentPrep: 0
   poolType: 0
