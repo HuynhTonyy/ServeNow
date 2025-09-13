@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e527324f92c924d8b947dbe2624e29, type: 3}
   m_Name: Lettuce Sliced
   m_EditorClassIdentifier: 
-  currentPrep: 1
-  poolType: 0
+  poolType: 1
+  prepType: 1

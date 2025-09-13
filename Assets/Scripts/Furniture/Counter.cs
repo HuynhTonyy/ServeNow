@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Vector3 offset;
+    [SerializeField] protected Vector3 offset;
     protected GameObject carriedObject = null;
     public virtual void Interact(Transform interacterTransform, GameObject currentObject)
     {

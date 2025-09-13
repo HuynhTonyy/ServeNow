@@ -4,25 +4,25 @@ using UnityEngine;
 public class CuttingBoard : OperatableCounter
 {
     private bool processable = false;
-    private ItemHolder itemHolder;
+    private Ingredient ingredient;
     public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
         base.Interact(interacterTransform,currentObject);
         if (carriedObject)
-            itemHolder = carriedObject.GetComponent<ItemHolder>();
+            ingredient = carriedObject.GetComponent<Ingredient>();
         else
             return;
-        if (itemHolder.GetPrepType() == PrepType.None)
+        if (ingredient && ingredient.GetPrepType() == PrepType.None)
             processable = true;
         else
             processable = false;
     }
     public override void Operate()
     {
-        if (carriedObject == null || !processable)
+        if (!carriedObject|| !processable || !ingredient)
             return;
         base.Operate();
         if (done)
-            itemHolder.ChangePrepType(PrepType.Slice);
+            ingredient.ChangePrepType(PrepType.Slice);
     }
 }

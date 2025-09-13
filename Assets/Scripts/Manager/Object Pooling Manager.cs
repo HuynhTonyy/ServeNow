@@ -27,10 +27,12 @@ public class ObjectPoolingManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Instance.onSpawnObject += SpawnObject;
+        EventManager.Instance.onDespawnObject += DespawnObject;
     }
     void OnDisable()
     {
-        EventManager.Instance.onSpawnObject -= SpawnObject;
+        EventManager.Instance.onSpawnObject += SpawnObject;
+        EventManager.Instance.onDespawnObject -= DespawnObject;
     }
     private void InitializePools()
     {
@@ -72,7 +74,7 @@ public class ObjectPoolingManager : MonoBehaviour
         obj.transform.localRotation = rotation;
         return obj;
     }
-    private void StoreObject(PoolType poolType,GameObject storeObject)
+    private void DespawnObject(PoolType poolType,GameObject storeObject)
     {
         storeObject.transform.parent = transform;
         storeObject.transform.position = Vector3.zero;
@@ -92,10 +94,15 @@ public class ObjectPoolingManager : MonoBehaviour
 }
 public enum PoolType
 {
+    None,
     Lecttuce,
     Potato,
     Tomato,
-    Onion
+    Onion,
+    Plate,
+    Bowl,
+    DirtyPlate,
+    DirtyBowl,
 }
 [System.Serializable]
 public struct Pool

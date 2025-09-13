@@ -4,6 +4,7 @@ using UnityEngine;
 public class IngredientSO : ItemData
 {
     [SerializeField] private PoolType poolType;
+    [SerializeField] private PrepType prepType;
 }
 public enum PrepType {
     None,

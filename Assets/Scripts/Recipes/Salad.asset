@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484bec3ee207ec04ab42cca57b329fe5, type: 3}
   m_Name: Salad
   m_EditorClassIdentifier: 
-  name: Salad
+  name: Basic Salad
   price: 20
   ingredients:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 58b2defbfdb3d8340af675f024defc98, type: 2}
+  - {fileID: 11400000, guid: f10ae9189c41c444d8af1d4f402f2519, type: 2}
   output: {fileID: 0}
