@@ -33,7 +33,7 @@ public class Dishrack : MonoBehaviour, IInteractable
         else
         {
             Container container = objectToSend.GetComponent<Container>();
-            if (container && container.GetPoolType() == poolType)
+            if (container && container.PoolType == poolType)
                 ReceiveObject(objectToSend);
         }
     }

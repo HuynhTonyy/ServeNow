@@ -12,7 +12,7 @@ public class CuttingBoard : OperatableCounter
             ingredient = carriedObject.GetComponent<Ingredient>();
         else
             return;
-        if (ingredient && ingredient.GetPrepType() == PrepType.None)
+        if (ingredient && ingredient.PrepType == PrepType.None)
             processable = true;
         else
             processable = false;

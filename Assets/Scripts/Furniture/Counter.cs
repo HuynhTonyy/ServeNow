@@ -7,31 +7,31 @@ public class Counter : MonoBehaviour, IInteractable
     protected GameObject carriedObject = null;
     public virtual void Interact(Transform interacterTransform, GameObject currentObject)
     {
-        if (currentObject != null && carriedObject == null)
+        Container container = currentObject ? currentObject.GetComponent<Container>() : null;
+        Ingredient ingredient = carriedObject ? carriedObject.GetComponent<Ingredient>() : null;
+        if (currentObject && !carriedObject)
+            PutDownObject(currentObject);
+        else if (!currentObject && carriedObject)
         {
-            //Put object down onto the counter
-            Transform currentTransform = currentObject.transform;
-            currentTransform.parent = transform;
-            currentTransform.localPosition = offset;
-            carriedObject = currentObject;
-            EventManager.Instance.ClearCarriedObject();
-        }
-        else if (currentObject == null && carriedObject != null)
-        {
-            //Pickup object from counter
             EventManager.Instance.PickupCarriedObject(carriedObject);
             carriedObject = null;
-
         }
-        else if (currentObject == null && carriedObject == null)
+        else if (ingredient && container)
         {
-            Debug.Log("Holding nothing to put down on counter.");
-        }
-        else if (currentObject != null && carriedObject != null)
-        {
-
-            Debug.Log("Counter is orcupied!");
+            bool isAdded = container.AddIngredient(carriedObject);
+            if (isAdded)
+            {
+                carriedObject = null;
+            }
+                
         }
     }
-    
+    private void PutDownObject(GameObject obj)
+    {
+        Transform currentTransform = obj.transform;
+        currentTransform.parent = transform;
+        currentTransform.localPosition = offset;
+        carriedObject = obj;
+        EventManager.Instance.ClearCarriedObject();
+    }
 }

@@ -7,11 +7,5 @@ using UnityEngine;
 public class ItemHolder : MonoBehaviour
 {
     [SerializeField] protected PoolType poolType;
-    public PoolType GetPoolType()
-    {
-        return poolType;
-    }
-    protected virtual void Start() {
-        
-    }
+    public PoolType PoolType { get { return poolType; } }
 }

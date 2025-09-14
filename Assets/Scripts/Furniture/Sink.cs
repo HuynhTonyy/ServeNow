@@ -16,7 +16,7 @@ public class Sink : OperatableCounter
         foreach (var item in convertContainers)
         {
             ItemHolder container = carriedObject.GetComponent<ItemHolder>();
-            if (container && container.GetPoolType() == item.From)
+            if (container && container.PoolType == item.From)
             {
                 typeTo = item.To;
                 break;
@@ -30,7 +30,7 @@ public class Sink : OperatableCounter
     }
     private void Convert(PoolType type)
     {
-        EventManager.Instance.DespawnObject(carriedObject.GetComponent<ItemHolder>().GetPoolType(), carriedObject);
+        EventManager.Instance.DespawnObject(carriedObject.GetComponent<ItemHolder>().PoolType, carriedObject);
         GameObject newObj = EventManager.Instance.SpawnObject(type,offset, Quaternion.identity, transform);
         carriedObject = newObj;
     }

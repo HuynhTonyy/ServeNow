@@ -9,8 +9,6 @@ public class RecipeSO : ScriptableObject
     [SerializeField] private int price;
     [SerializeField] private List<IngredientSO> ingredients;
     [SerializeField] private GameObject output;
-    public List<IngredientSO> GetIngredientSOs()
-    {
-        return ingredients;
-    }
+    public List<IngredientSO> Ingredients { get { return ingredients; } }
+    public GameObject Output { get { return output; } }
 }

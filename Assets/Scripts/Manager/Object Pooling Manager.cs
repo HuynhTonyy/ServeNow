@@ -42,6 +42,7 @@ public class ObjectPoolingManager : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject newObj = Instantiate(pool.prefab);
+                newObj.transform.parent = transform;
                 newObj.SetActive(false);
                 objectsPool.Enqueue(newObj);
             }
@@ -103,6 +104,7 @@ public enum PoolType
     Bowl,
     DirtyPlate,
     DirtyBowl,
+    Salad,
 }
 [System.Serializable]
 public struct Pool

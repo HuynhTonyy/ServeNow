@@ -4,16 +4,14 @@ using System;
 public class Ingredient : ItemHolder
 {
     private PrepType currentPrepType;
+    public PrepType PrepType { get { return currentPrepType; } }
     [SerializeField] private List<PrepObj> prepObjs;
+    public List<PrepObj> PrepObjs { get {return prepObjs;} }
     private GameObject currentPrepObj = null;
 
-    public PrepType GetPrepType()
+
+     void Start()
     {
-        return currentPrepType;
-    }
-    protected override void Start()
-    {
-        base.Start();
         ChangePrepType(PrepType.None);
     }
     public void ChangePrepType(PrepType newPrepType)

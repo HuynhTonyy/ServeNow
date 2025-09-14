@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class EventManager : MonoBehaviour
     public event Action<GameObject> onPickUpCarriedObject;
     public event Action onClearCrarriedObject;
     public event Action onOperate;
+    public event Func<List<GameObject>, GameObject> onFindRecipeOutput;
 
     private void Awake()
     {
@@ -56,6 +58,12 @@ public class EventManager : MonoBehaviour
     public void ClearCarriedObject()
     {
         Instance.onClearCrarriedObject?.Invoke();
+    }
+    #endregion
+    #region Dish Event
+    public GameObject FindRecipeOutput(List<GameObject> ingredients)
+    {
+        return Instance.onFindRecipeOutput?.Invoke(ingredients);
     }
     #endregion
 }
