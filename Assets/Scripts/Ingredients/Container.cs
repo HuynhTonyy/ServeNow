@@ -13,6 +13,7 @@ public class Container : ItemHolder
     public bool AddIngredient(GameObject ingreObj)
     {
         Ingredient ingredient = ingreObj.GetComponent<Ingredient>();
+        if (!ingredient) return false;
         if (ingredients.Count == 0 && ingredient.PrepType != PrepType.None)
         {
             ingredients.Add(ingreObj);

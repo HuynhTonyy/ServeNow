@@ -5,15 +5,15 @@ public class Crate : MonoBehaviour, IInteractable
     [SerializeField] private PoolType poolType;
     public void Interact(Transform parent,GameObject currentObject)
     {
-        if (currentObject == null)
+        if (!currentObject)
         {
             GameObject spawnedObj = EventManager.Instance.SpawnObject(poolType, Vector3.zero, Quaternion.identity, parent);
             EventManager.Instance.PickupCarriedObject(spawnedObj);
         }
-        else
+        else if (currentObject.TryGetComponent<ItemHolder>(out var itemHolder) && itemHolder.PoolType == poolType)
         {
-            Debug.Log("Have object in hand: " + currentObject);
+            EventManager.Instance.DespawnObject(poolType, currentObject);
+            EventManager.Instance.ClearCarriedObject();
         }
-
     }
 }

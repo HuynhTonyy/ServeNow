@@ -7,8 +7,7 @@ public class Counter : MonoBehaviour, IInteractable
     protected GameObject carriedObject = null;
     public virtual void Interact(Transform interacterTransform, GameObject currentObject)
     {
-        Container container = currentObject ? currentObject.GetComponent<Container>() : null;
-        Ingredient ingredient = carriedObject ? carriedObject.GetComponent<Ingredient>() : null;
+
         if (currentObject && !carriedObject)
             PutDownObject(currentObject);
         else if (!currentObject && carriedObject)
@@ -16,15 +15,8 @@ public class Counter : MonoBehaviour, IInteractable
             EventManager.Instance.PickupCarriedObject(carriedObject);
             carriedObject = null;
         }
-        else if (ingredient && container)
-        {
-            bool isAdded = container.AddIngredient(carriedObject);
-            if (isAdded)
-            {
-                carriedObject = null;
-            }
-                
-        }
+        else if (currentObject && carriedObject)
+            TryPlaceIngredientOntoDish(currentObject);
     }
     private void PutDownObject(GameObject obj)
     {
@@ -33,5 +25,22 @@ public class Counter : MonoBehaviour, IInteractable
         currentTransform.localPosition = offset;
         carriedObject = obj;
         EventManager.Instance.ClearCarriedObject();
+    }
+    private void TryPlaceIngredientOntoDish(GameObject currentObject)
+    {
+        if (currentObject.TryGetComponent<Container>(out var containerFromCurrent) &&
+                carriedObject.GetComponent<Ingredient>())
+            {
+                bool isAdded = containerFromCurrent.AddIngredient(carriedObject);
+                if (isAdded)
+                    carriedObject = null;
+            }
+            else if (carriedObject.TryGetComponent<Container>(out var containerFromCarried) &&
+                currentObject.GetComponent<Ingredient>())
+            {
+                bool isAdded = containerFromCarried.AddIngredient(currentObject);
+                if(isAdded)
+                    EventManager.Instance.ClearCarriedObject();
+            }
     }
 }
