@@ -4,7 +4,6 @@ using UnityEngine;
 public class Container : ItemHolder
 {
     private List<GameObject> ingredients;
-    public List<GameObject> Ingredients { get { return ingredients; } }
     private GameObject ingredientObjects;
     private void Start()
     {

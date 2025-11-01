@@ -29,27 +29,32 @@ public class Dishrack : MonoBehaviour, IInteractable
     }
     public void Interact(Transform interacterTransform, GameObject objectToSend = null)
     {
-        if (!objectToSend) GiveObject();
-        else
+        
+        if (!objectToSend)
         {
-            Container container = objectToSend.GetComponent<Container>();
-            if (container && container.PoolType == poolType)
-                ReceiveObject(objectToSend);
+            var obj = GetLastObject();
+            EventManager.Instance.PickupCarriedObject(obj);
+            containedObjects[containedObjects.IndexOf(obj)] = null;
+            return;
         }
+        if (objectToSend.TryGetComponent<Container>(out var container) && container.PoolType == poolType)
+        {
+            ReceiveObject(objectToSend);
+            return;
+        }
+        
+        if (!objectToSend.TryGetComponent<Ingredient>(out var ingredient)) return;
+        var newObj = GetLastObject();
+        var newContainer =  newObj.GetComponent<Container>();
+        containedObjects[containedObjects.IndexOf(newObj)] = null;
+        var isAdded = newContainer.AddIngredient(ingredient.gameObject);
+        if(isAdded)
+            EventManager.Instance.PickupCarriedObject(newContainer.gameObject);
+        
     }
-    private void GiveObject()
+    private GameObject GetLastObject()
     {
-        if (containedObjects.Count <= 0) return;
-        for (int i = 0; i < containedObjects.Count; i++)
-        {
-            if (containedObjects[i])
-            {
-                var obj = containedObjects[i];
-                EventManager.Instance.PickupCarriedObject(obj);
-                containedObjects[containedObjects.IndexOf(obj)] = null;
-                break;
-            }
-        }
+        return containedObjects.Count > 0 ? containedObjects.FindLast(v=>v!=null): null;
     }
     private void ReceiveObject(GameObject obj)
     {
