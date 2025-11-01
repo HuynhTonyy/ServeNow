@@ -12,7 +12,7 @@ public class Container : ItemHolder
     }
     public bool AddIngredient(GameObject ingreObj)
     {
-        Ingredient ingredient = ingreObj.GetComponent<Ingredient>();
+        var ingredient = ingreObj.GetComponent<Ingredient>();
         if (ingredients.Count == 0 && ingredient.PrepType != PrepType.None)
         {
             ingredients.Add(ingreObj);
@@ -22,23 +22,17 @@ public class Container : ItemHolder
             ingredientObjects = ingreObj;
             return true;
         }
-        else if (ingredients.Count >= 1)
+        if (ingredients.Count < 1) return false;
+        ingredients.Add(ingreObj);
+        var newIngredientObjects = EventManager.Instance.FindRecipeOutput(ingredients);
+        if (ingredientObjects != newIngredientObjects && newIngredientObjects)
         {
-            ingredients.Add(ingreObj);
-            GameObject newIngredientObjects = EventManager.Instance.FindRecipeOutput(ingredients);
-            if (ingredientObjects != newIngredientObjects && newIngredientObjects)
-            {
-                EventManager.Instance.DespawnObject(ingredientObjects.GetComponent<ItemHolder>().PoolType, ingredientObjects);
-                EventManager.Instance.DespawnObject(ingredient.PoolType, ingreObj);
-                ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.GetComponent<ItemHolder>().PoolType, Vector3.zero, Quaternion.identity, transform);
-                return true;
-            }
-            else
-            {
-                ingredients.Remove(ingreObj);
-                return false;
-            }
+            EventManager.Instance.DespawnObject(ingredientObjects.GetComponent<ItemHolder>().PoolType, ingredientObjects);
+            EventManager.Instance.DespawnObject(ingredient.PoolType, ingreObj);
+            ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.GetComponent<ItemHolder>().PoolType, Vector3.zero, Quaternion.identity, transform);
+            return true;
         }
+        ingredients.Remove(ingreObj);
         return false;
     }
 }

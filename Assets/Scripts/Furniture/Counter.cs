@@ -7,24 +7,49 @@ public class Counter : MonoBehaviour, IInteractable
     protected GameObject carriedObject = null;
     public virtual void Interact(Transform interacterTransform, GameObject currentObject)
     {
-        Container container = currentObject ? currentObject.GetComponent<Container>() : null;
-        Ingredient ingredient = carriedObject ? carriedObject.GetComponent<Ingredient>() : null;
+        //Put down when nothing on counter
         if (currentObject && !carriedObject)
+        {
             PutDownObject(currentObject);
-        else if (!currentObject && carriedObject)
+            return;
+        }
+        //Pick up when nothing on hand
+        if (!currentObject && carriedObject)
         {
             EventManager.Instance.PickupCarriedObject(carriedObject);
             carriedObject = null;
+            return;
         }
-        else if (ingredient && container)
+        //Combine dish 
+        var heldContainer = carriedObject ? carriedObject.GetComponent<Container>() : null;
+        var targetContainer = currentObject ? currentObject.GetComponent<Container>() : null;
+
+        var heldIngredient = carriedObject ? carriedObject.GetComponent<Ingredient>() : null;
+        var targetIngredient = currentObject ? currentObject.GetComponent<Ingredient>() : null;
+        var isAdded = false;
+
+        // Case 1: Holding ingredient, looking at container
+        if (heldContainer && targetIngredient)
         {
-            bool isAdded = container.AddIngredient(carriedObject);
-            if (isAdded)
+            isAdded = heldContainer.AddIngredient(currentObject);
+            if (isAdded) 
             {
-                carriedObject = null;
+                EventManager.Instance.ClearCarriedObject();
             }
-                
         }
+
+        // Case 2: Holding container, looking at ingredient
+        else if (heldIngredient && targetContainer)
+        {
+            isAdded = targetContainer.AddIngredient(carriedObject);
+            if (isAdded) carriedObject = null;
+        }
+
+        if (isAdded)
+        {
+            // Play sound, animation, etc.
+        }
+
     }
     private void PutDownObject(GameObject obj)
     {

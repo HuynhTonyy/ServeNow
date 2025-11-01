@@ -27,22 +27,27 @@ public class DishManager : MonoBehaviour
     }
     private GameObject FindRecipe(List<GameObject> ingredients)
     {
-        foreach (RecipeSO recipe in recipeSOs)
+        GameObject matchedRecipe = null;
+        foreach (var recipe in recipeSOs) 
         {
-            if (recipe.Ingredients.Count != ingredients.Count) continue;
-            int matchCount = 0;
-            foreach (var item in ingredients)
+            var allMatch = true;
+            // Check each ingredient required by this recipe
+            foreach (var required in recipe.Ingredients)
             {
-                Ingredient ingredient = item.GetComponent<Ingredient>();
-                if (ingredient && recipe.Ingredients.Find(x => x.PrepType == ingredient.PrepType) &&
-                    recipe.Ingredients.Find(x => x.PoolType == ingredient.PoolType))
+                var found = ingredients.Any(item =>
                 {
-                    matchCount++;
-                }
+                    var ing = item.GetComponent<Ingredient>();
+                    return ing && ing.PrepType == required.PrepType && ing.PoolType == required.PoolType;
+                });
+                if (found) continue;
+                allMatch = false;
+                break;
             }
-            if(matchCount != ingredients.Count) continue;
-            return recipe.Output;
+            // Extra check: make sure you don’t have more ingredients than the recipe
+            if (!allMatch || ingredients.Count != recipe.Ingredients.Count) continue;
+            matchedRecipe = recipe.Output;
+            break;
         }
-        return null;
+        return matchedRecipe;
     }
 }

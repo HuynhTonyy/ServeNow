@@ -867,7 +867,7 @@ PrefabInstance:
       objectReference: {fileID: 2294304555463088766, guid: bbe2129a23778ca49ac8fd4875961f98, type: 3}
     - target: {fileID: 454958120105970115, guid: 871efff33c20953438d4d077abdfe749, type: 3}
       propertyPath: poolType
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5244514747421522795, guid: 871efff33c20953438d4d077abdfe749, type: 3}
       propertyPath: m_Size.x

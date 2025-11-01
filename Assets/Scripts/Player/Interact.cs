@@ -95,15 +95,11 @@ public class Interact : MonoBehaviour
             }
         }
         if (!found)
-        {
             selectObj = null;
-        }
         else
         {
             if (selectObj)
-            {
                 highligh.SetActive(true);
-            }
         }
     }
 
