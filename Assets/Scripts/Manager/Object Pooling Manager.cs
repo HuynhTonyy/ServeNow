@@ -62,7 +62,6 @@ public class ObjectPoolingManager : MonoBehaviour
             return null;
         }
         GameObject obj = poolsDictionary[poolType].Dequeue();
-        obj.SetActive(true);
         if (parrent != null)
         {
             obj.transform.parent = parrent;
@@ -71,15 +70,14 @@ public class ObjectPoolingManager : MonoBehaviour
         {
             obj.transform.parent = transform;
         }
-        obj.transform.localPosition = position;
-        obj.transform.localRotation = rotation;
+        obj.transform.SetLocalPositionAndRotation(position, rotation);
+        obj.SetActive(true);
         return obj;
     }
     private void DespawnObject(PoolType poolType,GameObject storeObject)
     {
         storeObject.transform.parent = transform;
-        storeObject.transform.position = Vector3.zero;
-        storeObject.transform.rotation = Quaternion.identity;
+        storeObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         if (!poolsDictionary.ContainsKey(poolType))
         {
             Queue<GameObject> newQueue = new Queue<GameObject>();
@@ -105,6 +103,7 @@ public enum PoolType
     DirtyPlate,
     DirtyBowl,
     Salad,
+    Customer,
 }
 [System.Serializable]
 public struct Pool

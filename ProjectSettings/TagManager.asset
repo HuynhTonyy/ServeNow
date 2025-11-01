@@ -13,10 +13,10 @@ TagManager:
   - Interactable
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Customer
+  - Ground
+  - Wall
   - 
   - 
   - 

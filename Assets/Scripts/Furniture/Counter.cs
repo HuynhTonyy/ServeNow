@@ -20,36 +20,8 @@ public class Counter : MonoBehaviour, IInteractable
             carriedObject = null;
             return;
         }
-        //Combine dish 
-        var heldContainer = carriedObject ? carriedObject.GetComponent<Container>() : null;
-        var targetContainer = currentObject ? currentObject.GetComponent<Container>() : null;
-
-        var heldIngredient = carriedObject ? carriedObject.GetComponent<Ingredient>() : null;
-        var targetIngredient = currentObject ? currentObject.GetComponent<Ingredient>() : null;
-        var isAdded = false;
-
-        // Case 1: Holding ingredient, looking at container
-        if (heldContainer && targetIngredient)
-        {
-            isAdded = heldContainer.AddIngredient(currentObject);
-            if (isAdded) 
-            {
-                EventManager.Instance.ClearCarriedObject();
-            }
-        }
-
-        // Case 2: Holding container, looking at ingredient
-        else if (heldIngredient && targetContainer)
-        {
-            isAdded = targetContainer.AddIngredient(carriedObject);
-            if (isAdded) carriedObject = null;
-        }
-
-        if (isAdded)
-        {
-            // Play sound, animation, etc.
-        }
-
+        if (currentObject && carriedObject)
+            TryPlaceIngredientOntoDish(currentObject);
     }
     private void PutDownObject(GameObject obj)
     {
@@ -58,5 +30,22 @@ public class Counter : MonoBehaviour, IInteractable
         currentTransform.localPosition = offset;
         carriedObject = obj;
         EventManager.Instance.ClearCarriedObject();
+    }
+    private void TryPlaceIngredientOntoDish(GameObject currentObject)
+    {
+        if (currentObject.TryGetComponent<Container>(out var containerFromCurrent) &&
+                carriedObject.GetComponent<Ingredient>())
+            {
+                bool isAdded = containerFromCurrent.AddIngredient(carriedObject);
+                if (isAdded)
+                    carriedObject = null;
+            }
+            else if (carriedObject.TryGetComponent<Container>(out var containerFromCarried) &&
+                currentObject.GetComponent<Ingredient>())
+            {
+                bool isAdded = containerFromCarried.AddIngredient(currentObject);
+                if(isAdded)
+                    EventManager.Instance.ClearCarriedObject();
+            }
     }
 }

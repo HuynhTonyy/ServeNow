@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1140182967304673050}
   - component: {fileID: 2270268849873446556}
   - component: {fileID: 1111573435906199894}
+  - component: {fileID: -3984515755877717029}
   m_Layer: 3
   m_Name: Dishrack
   m_TagString: Untagged
@@ -128,6 +129,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000014, y: 1.0037518, z: 2.0000014}
   m_Center: {x: 0.000002861023, y: 0.49812412, z: -0.000000029802333}
+--- !u!114 &-3984515755877717029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824275856155379595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4474055761567220869
 GameObject:
   m_ObjectHideFlags: 0
