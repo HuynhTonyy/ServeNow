@@ -33,6 +33,7 @@ public class Dishrack : MonoBehaviour, IInteractable
         if (!objectToSend)
         {
             var obj = GetLastObject();
+            if (!obj) return;
             EventManager.Instance.PickupCarriedObject(obj);
             containedObjects[containedObjects.IndexOf(obj)] = null;
             return;
@@ -45,6 +46,7 @@ public class Dishrack : MonoBehaviour, IInteractable
         
         if (!objectToSend.TryGetComponent<Ingredient>(out var ingredient)) return;
         var newObj = GetLastObject();
+        if (!newObj) return;
         var newContainer =  newObj.GetComponent<Container>();
         containedObjects[containedObjects.IndexOf(newObj)] = null;
         var isAdded = newContainer.AddIngredient(ingredient.gameObject);
