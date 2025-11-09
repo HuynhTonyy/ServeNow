@@ -104,6 +104,7 @@ public enum PoolType
     DirtyBowl,
     Salad,
     Customer,
+    Trash
 }
 [System.Serializable]
 public struct Pool

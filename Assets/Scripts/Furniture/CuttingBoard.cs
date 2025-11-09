@@ -8,10 +8,8 @@ public class CuttingBoard : OperatableCounter
     public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
         base.Interact(interacterTransform,currentObject);
-        if (carriedObject)
-            ingredient = carriedObject.GetComponent<Ingredient>();
-        else
-            return;
+        if (!carriedObject) return;
+        ingredient = carriedObject.GetComponent<Ingredient>();
         if (ingredient && ingredient.PrepType == PrepType.None)
             processable = true;
         else
@@ -19,10 +17,9 @@ public class CuttingBoard : OperatableCounter
     }
     public override void Operate()
     {
-        if (!carriedObject|| !processable || !ingredient)
-            return;
+        if (!carriedObject|| !processable || !ingredient) return;
         base.Operate();
-        if (done)
-            ingredient.ChangePrepType(PrepType.Slice);
+        if (!done) return;
+        ingredient.ChangePrepType(PrepType.Slice);
     }
 }

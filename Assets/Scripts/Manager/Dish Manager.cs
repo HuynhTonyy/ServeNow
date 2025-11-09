@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
@@ -6,6 +7,7 @@ public class DishManager : MonoBehaviour
 {
     public static DishManager Instance;
     [SerializeField] private List<RecipeSO> recipeSOs;
+    [SerializeField] private List<Ingredient> ingredients;
     private void Awake()
     {
         if (Instance == null)
@@ -37,7 +39,10 @@ public class DishManager : MonoBehaviour
                 var found = ingredients.Any(item =>
                 {
                     var ing = item.GetComponent<Ingredient>();
-                    return ing && ing.PrepType == required.PrepType && ing.PoolType == required.PoolType;
+                    return ing && 
+                           ing.PrepType == required.PrepType && 
+                           ing.PoolType == required.PoolType && 
+                           ing.ProcessType == required.ProcessType;
                 });
                 if (found) continue;
                 allMatch = false;
@@ -50,4 +55,5 @@ public class DishManager : MonoBehaviour
         }
         return matchedRecipe;
     }
+
 }
