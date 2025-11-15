@@ -16,17 +16,23 @@ public class Stove : OperatableCounter
     private float currentOverHeatTimer;
     private bool isBurned = false;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         currentOverHeatTimer = overHeatTimer;
     }
     public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
         isBurned = false;
         base.Interact(interacterTransform,currentObject);
-        if (!carriedObject) return;
+        if (!carriedObject)
+        {
+            progressBarGroup.SetActive(false);
+            return;
+        }
         ingredient = carriedObject.GetComponent<Ingredient>();
         processable = false;
+        progressBarGroup.SetActive(false);      
         if(!ingredient) return;
         foreach (var type in processTypes)
         {
@@ -34,13 +40,14 @@ public class Stove : OperatableCounter
             currentProcessType = type;
             processable =  true;
         }
+        progressBarGroup.SetActive(processable);
     }
 
     protected override void Update()
     {
         if(!processable) return;
         base.Update();
-        if(!done) return;
+        if(!Done) return;
         ingredient.ChangeProcessType(currentProcessType);
         if(!isOverHeatable) return;
         currentOverHeatTimer = Math.Max(currentOverHeatTimer-Time.deltaTime,0f);
@@ -48,7 +55,7 @@ public class Stove : OperatableCounter
         if(isBurned) return;
         isBurned = true;
         EventManager.Instance.DespawnObject(carriedObject.GetComponent<ItemHolder>().PoolType,carriedObject);
-        EventManager.Instance.SpawnObject(PoolType.Trash, offset,Quaternion.identity,this.transform);
+        EventManager.Instance.SpawnObject(PoolType.Trash, offset,Quaternion.identity,transform);
     }
 
     public override void Operate()

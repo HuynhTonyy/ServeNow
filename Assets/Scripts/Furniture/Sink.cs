@@ -5,28 +5,27 @@ using UnityEngine;
 public class Sink : OperatableCounter
 {
     [SerializeField] private List<ConvertableContainer> convertContainers;
-    
+    private bool processable = false;
+    private PoolType typeTo = PoolType.None;
     public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
-        base.Interact(interacterTransform, currentObject);
+        base.Interact(interacterTransform,currentObject);
+        processable = false;
+        foreach (var item in convertContainers)
+        {
+            var container = carriedObject.GetComponent<ItemHolder>();
+            if (!container || container.PoolType != item.From) continue;
+            processable = true;
+            typeTo = item.To;
+            break;
+        }
+        progressBarGroup.SetActive(processable);
     }
     public override void Operate()
     {
-        PoolType typeTo = PoolType.None;
-        foreach (var item in convertContainers)
-        {
-            ItemHolder container = carriedObject.GetComponent<ItemHolder>();
-            if (container && container.PoolType == item.From)
-            {
-                typeTo = item.To;
-                break;
-            }
-        }
-        if(typeTo == PoolType.None)
-            return;
+        if(!processable) return;    
         base.Operate();
-        if (done && carriedObject && convertContainers.Count > 0)
-            Convert(typeTo);
+        if (Done && carriedObject && convertContainers.Count > 0) Convert(typeTo);
     }
     private void Convert(PoolType type)
     {
