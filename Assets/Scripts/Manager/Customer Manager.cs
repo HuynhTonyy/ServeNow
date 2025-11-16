@@ -5,7 +5,7 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private PoolType poolType;
+    [SerializeField] private string prefabName;
 
     private CustomerManager Instance;
     private void Awake()
@@ -28,7 +28,7 @@ public class CustomerManager : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            EventManager.Instance.SpawnObject(poolType, Vector3.zero, Quaternion.identity, spawnPoint);
+            EventManager.Instance.SpawnObject(prefabName, Vector3.zero, Quaternion.identity, spawnPoint);
         }
     }
 }

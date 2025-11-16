@@ -27,9 +27,9 @@ public class Container : ItemHolder
         var newIngredientObjects = EventManager.Instance.FindRecipeOutput(ingredients);
         if (ingredientObjects != newIngredientObjects && newIngredientObjects)
         {
-            EventManager.Instance.DespawnObject(ingredientObjects.GetComponent<ItemHolder>().PoolType, ingredientObjects);
-            EventManager.Instance.DespawnObject(ingredient.PoolType, ingreObj);
-            ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.GetComponent<ItemHolder>().PoolType, Vector3.zero, Quaternion.identity, transform);
+            EventManager.Instance.DespawnObject(ingredientObjects);
+            EventManager.Instance.DespawnObject(ingreObj);
+            ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.name, Vector3.zero, Quaternion.identity, transform);
             return true;
         }
         ingredients.Remove(ingreObj);

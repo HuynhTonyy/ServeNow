@@ -10,19 +10,22 @@ public static class TsvLoader
     public static async Task<List<T>> LoadDataAsyncTsv<T>(string fileName) where T : new()
     {
         string path = System.IO.Path.Combine(Application.streamingAssetsPath, $"{fileName}.tsv");
-
-        UnityWebRequest req = UnityWebRequest.Get(path);
-        await req.SendWebRequest();
-
+        #if UNITY_ANDROID
+            UnityWebRequest req = UnityWebRequest.Get(path);
+            await req.SendWebRequest();
+            string text = req.downloadHandler.text;
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to load TSV file: " + req.error);
+                return list;
+            }
+        #else
+                string text = System.IO.File.ReadAllText(path);
+        #endif
         List<T> list = new List<T>();
 
-        if (req.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("Failed to load TSV file: " + req.error);
-            return list;
-        }
 
-        string[] lines = req.downloadHandler.text.Split('\n');
+        string[] lines = text.Split('\n');
 
         if (lines.Length < 2)
             return list;

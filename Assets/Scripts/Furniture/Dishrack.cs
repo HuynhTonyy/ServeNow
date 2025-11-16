@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dishrack : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PoolType poolType;
+    [SerializeField] private string prefabName;
     private List<GameObject> containedObjects = new List<GameObject>();
     [SerializeField] private int capacity = 6;
     [SerializeField] private GameObject containerHolder;
@@ -20,7 +20,7 @@ public class Dishrack : MonoBehaviour, IInteractable
         Vector3 currentPos = startPos.transform.localPosition;
         for (int i = 0; i < capacity; i++)
         {
-            var obj = EventManager.Instance.SpawnObject(poolType, currentPos, Quaternion.identity, containerHolder.transform);
+            var obj = EventManager.Instance.SpawnObject(prefabName, currentPos, Quaternion.identity, containerHolder.transform);
             obj.SetActive(true);
             containedObjects.Add(obj);
             currentPos += spacing;
@@ -38,7 +38,7 @@ public class Dishrack : MonoBehaviour, IInteractable
             containedObjects[containedObjects.IndexOf(obj)] = null;
             return;
         }
-        if (objectToSend.TryGetComponent<Container>(out var container) && container.PoolType == poolType)
+        if (objectToSend.TryGetComponent<Container>(out var container) && container.Name == prefabName)
         {
             ReceiveObject(objectToSend);
             return;

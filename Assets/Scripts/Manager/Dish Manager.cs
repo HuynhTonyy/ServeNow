@@ -41,7 +41,7 @@ public class DishManager : MonoBehaviour
                     var ing = item.GetComponent<Ingredient>();
                     return ing && 
                            ing.PrepType == required.PrepType && 
-                           ing.PoolType == required.PoolType && 
+                           ing.Name == required.PoolType && 
                            ing.ProcessType == required.ProcessType;
                 });
                 if (found) continue;

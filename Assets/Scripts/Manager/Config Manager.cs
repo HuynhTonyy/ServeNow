@@ -1,17 +1,21 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+
 public class ConfigManager: MonoBehaviour
 {
     public static ConfigManager Instance;
-    private ConfigIngredientTable ConfigIngredients = new ConfigIngredientTable();
+    public ConfigIngredientTable ConfigIngredients = new ();
+    public ConfigDishTable ConfigDishes = new ();
+    public ConfigContainerTable ConfigContainers = new ();
     private void Awake()
     {
-        CheckSigleton();
+        CheckSingleton();
         LoadConfigs();
     }
 
-    private void CheckSigleton()
+    private void CheckSingleton()
     {
         if (Instance == null)
         {
@@ -25,6 +29,9 @@ public class ConfigManager: MonoBehaviour
     {
         var path = "Config/";
         ConfigIngredients.Records = await TsvLoader.LoadDataAsyncTsv<ConfigIngredient>($"{path}ConfigIngredient");
+        ConfigDishes.Records = await TsvLoader.LoadDataAsyncTsv<ConfigDish>($"{path}ConfigDish");
+        ConfigContainers.Records = await TsvLoader.LoadDataAsyncTsv<ConfigContainer>($"{path}ConfigContainer");
+        
     }
     
 }

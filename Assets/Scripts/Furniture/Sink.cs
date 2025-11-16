@@ -4,42 +4,26 @@ using UnityEngine;
 
 public class Sink : OperatableCounter
 {
-    [SerializeField] private List<ConvertableContainer> convertContainers;
     private bool processable = false;
-    private PoolType typeTo = PoolType.None;
+    private ConfigContainer container = null;
     public override void Interact(Transform interacterTransform, GameObject currentObject)
     {
         base.Interact(interacterTransform,currentObject);
-        processable = false;
-        foreach (var item in convertContainers)
-        {
-            var container = carriedObject.GetComponent<ItemHolder>();
-            if (!container || container.PoolType != item.From) continue;
-            processable = true;
-            typeTo = item.To;
-            break;
-        }
-        progressBarGroup.SetActive(processable);
+        var name = carriedObject.GetComponent<ItemHolder>().Name;
+        container = ConfigManager.Instance.ConfigContainers.GetCleanContainer(name);
+        progressBarGroup.SetActive(container != null);
     }
     public override void Operate()
     {
         if(!processable) return;    
         base.Operate();
-        if (Done && carriedObject && convertContainers.Count > 0) Convert(typeTo);
+        if (Done && carriedObject) Convert();
     }
-    private void Convert(PoolType type)
+    private void Convert()
     {
-        EventManager.Instance.DespawnObject(carriedObject.GetComponent<ItemHolder>().PoolType, carriedObject);
-        GameObject newObj = EventManager.Instance.SpawnObject(type,offset, Quaternion.identity, transform);
+        EventManager.Instance.DespawnObject(carriedObject);
+        var newObj = EventManager.Instance.SpawnObject(container.prefab,offset, Quaternion.identity, transform);
         carriedObject = newObj;
+        container = null;
     }
-}
-[Serializable]
-public struct ConvertableContainer
-{
-    [SerializeField] private PoolType from;
-    public readonly PoolType From { get { return from; } }
-    [SerializeField] private PoolType to;
-    public readonly PoolType To { get { return to; } }
-
 }

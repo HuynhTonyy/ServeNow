@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 1242990442483733189}
   - component: {fileID: 1413814599303444684}
   m_Layer: 0
-  m_Name: Tomato
+  m_Name: tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

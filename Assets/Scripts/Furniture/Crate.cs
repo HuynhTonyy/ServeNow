@@ -2,18 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Crate : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PoolType poolType;
+    [SerializeField] private string prefabName;
     public void Interact(Transform parent,GameObject currentObject)
     {
         if (!currentObject)
         {
-            GameObject spawnedObj = EventManager.Instance.SpawnObject(poolType, Vector3.zero, Quaternion.identity, parent);
+            var spawnedObj = EventManager.Instance.SpawnObject(prefabName, Vector3.zero, Quaternion.identity, parent);
             EventManager.Instance.PickupCarriedObject(spawnedObj);
+            return;
         }
-        else if (currentObject.TryGetComponent<ItemHolder>(out var itemHolder) && itemHolder.PoolType == poolType)
-        {
-            EventManager.Instance.DespawnObject(poolType, currentObject);
-            EventManager.Instance.ClearCarriedObject();
-        }
+        if (currentObject.TryGetComponent<ItemHolder>(out var itemHolder) &&  itemHolder.Name != prefabName) return;
+        EventManager.Instance.DespawnObject(currentObject);
+        EventManager.Instance.ClearCarriedObject();
     }
 }

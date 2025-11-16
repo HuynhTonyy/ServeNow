@@ -5,8 +5,8 @@ using UnityEngine;
 public class ObjectPoolingManager : MonoBehaviour
 {
     private static ObjectPoolingManager Instance;
-    [SerializeField] private List<Pool> pools = new List<Pool>();
-    private Dictionary<PoolType, Queue<GameObject>> poolsDictionary = new Dictionary<PoolType, Queue<GameObject>>();
+    [SerializeField] private int poolSize = 5;
+    private Dictionary<string, Queue<GameObject>> poolsDictionary = new ();
     private void Awake()
     {
         if (Instance == null)
@@ -20,10 +20,6 @@ public class ObjectPoolingManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-
-    }
     private void OnEnable()
     {
         EventManager.Instance.onSpawnObject += SpawnObject;
@@ -31,51 +27,64 @@ public class ObjectPoolingManager : MonoBehaviour
     }
     void OnDisable()
     {
-        EventManager.Instance.onSpawnObject += SpawnObject;
+        EventManager.Instance.onSpawnObject -= SpawnObject;
         EventManager.Instance.onDespawnObject -= DespawnObject;
     }
     private void InitializePools()
     {
-        foreach (var pool in pools)
+        var configManager = ConfigManager.Instance;
+        if(!configManager) return;
+        InitializePool(configManager.ConfigContainers.Records,"Containers");
+        InitializePool(configManager.ConfigIngredients.Records,"Ingredients");
+        InitializePool(configManager.ConfigDishes.Records,"Dishes");
+    }
+
+    private void InitializePool<T>(List<T> list, string folderName) where T : Config, IPrefabConfig
+    {
+        if(list.Count <= 0) return;
+        foreach (var  pool  in list)
         {
-            Queue<GameObject> objectsPool = new Queue<GameObject>();
-            for (int i = 0; i < pool.size; i++)
+            var objectsPool = new Queue<GameObject>();
+            for (int i = 0; i < poolSize; i++)
             {
-                GameObject newObj = Instantiate(pool.prefab);
-                newObj.transform.parent = transform;
+                var path = $"Prefabs/{folderName}/{pool.Prefab}";
+                var asset = Resources.Load<GameObject>(path);
+                Debug.Log(path);
+                var newObj = Instantiate(asset, transform);
                 newObj.SetActive(false);
                 objectsPool.Enqueue(newObj);
             }
-            poolsDictionary.Add(pool.poolType, objectsPool);
+            poolsDictionary.Add(pool.Prefab, objectsPool);
         }
     }
-    private GameObject SpawnObject(PoolType poolType, Vector3 position, Quaternion rotation, Transform parrent = null)
+    
+    private GameObject SpawnObject(string prefabName, Vector3 position, Quaternion rotation, Transform parent = null)
     {
-        if (!poolsDictionary.ContainsKey(poolType))
+        if (!poolsDictionary.ContainsKey(prefabName))
         {
-            Debug.Log("Pool type not found! - " + poolType);
+#if UNITY_EDITOR
+            Debug.Log("Pool type not found! - " + prefabName);
+#endif
             return null;
         }
-        if (poolsDictionary[poolType].Count <= 0)
+        if (poolsDictionary[prefabName].Count <= 0)
         {
-            Debug.Log("No more object to use");
-            return null;
+            var newObj = Instantiate(Resources.Load<GameObject>(prefabName), transform);
+            newObj.SetActive(false);
+            poolsDictionary[prefabName].Enqueue(newObj);
+#if UNITY_EDITOR
+            Debug.Log($"Create new {prefabName}");
+#endif
         }
-        GameObject obj = poolsDictionary[poolType].Dequeue();
-        if (parrent != null)
-        {
-            obj.transform.parent = parrent;
-        }
-        else
-        {
-            obj.transform.parent = transform;
-        }
+        var obj = poolsDictionary[prefabName].Dequeue();
+        obj.transform.parent = parent ? parent : transform;
         obj.transform.SetLocalPositionAndRotation(position, rotation);
         obj.SetActive(true);
         return obj;
     }
-    private void DespawnObject(PoolType poolType,GameObject storeObject)
+    private void DespawnObject(GameObject storeObject)
     {
+        var poolType =  storeObject.name.Replace("(Clone)", "");
         storeObject.transform.parent = transform;
         storeObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         if (!poolsDictionary.ContainsKey(poolType))
@@ -94,7 +103,7 @@ public class ObjectPoolingManager : MonoBehaviour
 public enum PoolType
 {
     None,
-    Lecttuce,
+    Lettuce,
     Potato,
     Tomato,
     Onion,

@@ -924,6 +924,10 @@ PrefabInstance:
       propertyPath: poolType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 454958120105970115, guid: 871efff33c20953438d4d077abdfe749, type: 3}
+      propertyPath: prefabName
+      value: onion
+      objectReference: {fileID: 0}
     - target: {fileID: 5244514747421522795, guid: 871efff33c20953438d4d077abdfe749, type: 3}
       propertyPath: m_Size.x
       value: 1.8
@@ -3203,34 +3207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3479d280fac76c844b71582d455ec1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools:
-  - poolType: 1
-    size: 10
-    prefab: {fileID: 4516982026019825118, guid: 397cee64c8794bb4d982cbb411610cff, type: 3}
-  - poolType: 3
-    size: 10
-    prefab: {fileID: 4516982026019825118, guid: 08410d81cdb02f8488c5418041bcf235, type: 3}
-  - poolType: 4
-    size: 10
-    prefab: {fileID: 4516982026019825118, guid: ecb4e4b3ecc66b64084f985087fc9eaf, type: 3}
-  - poolType: 5
-    size: 10
-    prefab: {fileID: 9000676129945652392, guid: 83ab272892d67b44eb099ddd862c01b9, type: 3}
-  - poolType: 7
-    size: 10
-    prefab: {fileID: 9000676129945652392, guid: bbe2129a23778ca49ac8fd4875961f98, type: 3}
-  - poolType: 9
-    size: 10
-    prefab: {fileID: 4933201040206289520, guid: 0e915e180e47aa444ac68ca0029d0966, type: 3}
-  - poolType: 10
-    size: 10
-    prefab: {fileID: 785901055736770517, guid: c5ce17abdd8b53c4b8baa2184807a497, type: 3}
-  - poolType: 2
-    size: 10
-    prefab: {fileID: 4516982026019825118, guid: 7b1b0890daeb8b04ea79f99c2e65491c, type: 3}
-  - poolType: 11
-    size: 10
-    prefab: {fileID: 919132149155446097, guid: 3445777dc20be094f88c5ef6945d87bd, type: 3}
+  poolSize: 5
 --- !u!1 &1143491209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,6 +3367,10 @@ PrefabInstance:
     - target: {fileID: 454958120105970115, guid: 15be520315f32224b92fae18653cdab4, type: 3}
       propertyPath: poolType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 454958120105970115, guid: 15be520315f32224b92fae18653cdab4, type: 3}
+      propertyPath: prefabName
+      value: tomato
       objectReference: {fileID: 0}
     - target: {fileID: 5244514747421522795, guid: 15be520315f32224b92fae18653cdab4, type: 3}
       propertyPath: m_Size.x
@@ -5411,6 +5392,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 718221477}
     m_Modifications:
+    - target: {fileID: 454958120105970115, guid: 2654a1ae9c4336940bcf71e0400451d7, type: 3}
+      propertyPath: prefabName
+      value: potato
+      objectReference: {fileID: 0}
     - target: {fileID: 5804491962295357255, guid: 2654a1ae9c4336940bcf71e0400451d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -6082,7 +6067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 455748478}
-  poolType: 10
+  prefabName: 
 --- !u!1 &2018092428
 GameObject:
   m_ObjectHideFlags: 0
@@ -6268,6 +6253,10 @@ PrefabInstance:
     - target: {fileID: 2270268849873446556, guid: 3064e96dcf8d0894c8ce5792ac059343, type: 3}
       propertyPath: poolType
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2270268849873446556, guid: 3064e96dcf8d0894c8ce5792ac059343, type: 3}
+      propertyPath: prefabName
+      value: plate
       objectReference: {fileID: 0}
     - target: {fileID: 2824275856155379595, guid: 3064e96dcf8d0894c8ce5792ac059343, type: 3}
       propertyPath: m_Name
@@ -6597,6 +6586,10 @@ PrefabInstance:
     - target: {fileID: 454958120105970115, guid: e5f7ae88c135fba43b79f4ea4a4f43a6, type: 3}
       propertyPath: poolType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 454958120105970115, guid: e5f7ae88c135fba43b79f4ea4a4f43a6, type: 3}
+      propertyPath: prefabName
+      value: lettuce
       objectReference: {fileID: 0}
     - target: {fileID: 5244514747421522795, guid: e5f7ae88c135fba43b79f4ea4a4f43a6, type: 3}
       propertyPath: m_Size.x

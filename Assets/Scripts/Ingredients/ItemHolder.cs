@@ -6,6 +6,6 @@ using UnityEngine;
 
 public class ItemHolder : MonoBehaviour
 {
-    [SerializeField] protected PoolType poolType;
-    public PoolType PoolType { get { return poolType; } }
+    [SerializeField] protected string name;
+    public string Name { get { return name; } set { name = value; } }
 }

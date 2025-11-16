@@ -54,8 +54,8 @@ public class Stove : OperatableCounter
         if (currentOverHeatTimer > 0f) return;
         if(isBurned) return;
         isBurned = true;
-        EventManager.Instance.DespawnObject(carriedObject.GetComponent<ItemHolder>().PoolType,carriedObject);
-        EventManager.Instance.SpawnObject(PoolType.Trash, offset,Quaternion.identity,transform);
+        EventManager.Instance.DespawnObject(carriedObject);
+        // EventManager.Instance.SpawnObject(PoolType.Trash, offset,Quaternion.identity,transform);
     }
 
     public override void Operate()
