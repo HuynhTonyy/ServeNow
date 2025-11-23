@@ -5,7 +5,7 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
-    public event Func<string, Vector3, Quaternion, Transform, GameObject> onSpawnObject;
+    public event Func<string, Vector3, Quaternion, Transform, GameObject>  onSpawnObject;
     public event Action<GameObject> onDespawnObject;
     public event Action onInteract;
     public event Action<Vector2> onInputMove;

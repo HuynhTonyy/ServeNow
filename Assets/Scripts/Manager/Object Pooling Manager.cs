@@ -7,6 +7,7 @@ public class ObjectPoolingManager : MonoBehaviour
     private static ObjectPoolingManager Instance;
     [SerializeField] private int poolSize = 5;
     private Dictionary<string, Queue<GameObject>> poolsDictionary = new ();
+    private Dictionary<string, string> folderDictionary = new ();
     private void Awake()
     {
         if (Instance == null)
@@ -49,12 +50,12 @@ public class ObjectPoolingManager : MonoBehaviour
             {
                 var path = $"Prefabs/{folderName}/{pool.Prefab}";
                 var asset = Resources.Load<GameObject>(path);
-                Debug.Log(path);
                 var newObj = Instantiate(asset, transform);
                 newObj.SetActive(false);
                 objectsPool.Enqueue(newObj);
             }
             poolsDictionary.Add(pool.Prefab, objectsPool);
+            folderDictionary.Add(pool.Prefab, folderName);
         }
     }
     
@@ -69,7 +70,8 @@ public class ObjectPoolingManager : MonoBehaviour
         }
         if (poolsDictionary[prefabName].Count <= 0)
         {
-            var newObj = Instantiate(Resources.Load<GameObject>(prefabName), transform);
+            var path = $"Prefabs/{folderDictionary[prefabName]}/{prefabName}";
+            var newObj = Instantiate(Resources.Load<GameObject>(path), transform);
             newObj.SetActive(false);
             poolsDictionary[prefabName].Enqueue(newObj);
 #if UNITY_EDITOR
