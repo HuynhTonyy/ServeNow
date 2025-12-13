@@ -21,6 +21,7 @@ public class Ingredient : ItemHolder
      private void Start()
     {
         currentPrepObj = prepObjs.Find(v => v.GetPrepType() == currentPrepType).GetPrefab();
+        name = gameObject.name.Replace("(Clone)","");
         ChangePrepType(PrepType.None);
         ChangeProcessType(ProcessType.None);
     }

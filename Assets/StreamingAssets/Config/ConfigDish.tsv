@@ -1,2 +1,2 @@
-id	name	prefab
-1	Salad	salad
+id	name	prefab	ingredients	preps	procs
+1	Salad	Salad	Lettuce;Tomato	slice;slice	none;none
