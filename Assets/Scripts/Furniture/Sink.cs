@@ -22,7 +22,7 @@ public class Sink : OperatableCounter
     private void Convert()
     {
         EventManager.Instance.DespawnObject(carriedObject);
-        var newObj = EventManager.Instance.SpawnObject(container.prefab,offset, Quaternion.identity, transform);
+        var newObj = EventManager.Instance.SpawnObject(container.prefab, FolderPrefabPath.Containers.ToString(),position:offset, parent: transform);
         carriedObject = newObj;
         container = null;
     }

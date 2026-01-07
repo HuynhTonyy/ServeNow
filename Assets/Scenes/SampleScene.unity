@@ -3678,9 +3678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443f7996b2f06f34b8de769e2c94715c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeSOs:
-  - {fileID: 11400000, guid: a29bf372492f54f46ab29784d666d884, type: 2}
-  ingredients: []
 --- !u!1001 &1259630461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6067,7 +6064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 455748478}
-  prefabName: 
+  customerPrefab: {fileID: 785901055736770517, guid: c5ce17abdd8b53c4b8baa2184807a497, type: 3}
 --- !u!1 &2018092428
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private string prefabName;
+    [SerializeField] private GameObject customerPrefab;
 
     private CustomerManager Instance;
     private void Awake()
@@ -28,13 +28,7 @@ public class CustomerManager : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            EventManager.Instance.SpawnObject(prefabName, Vector3.zero, Quaternion.identity, spawnPoint);
+            EventManager.Instance.SpawnObject(customerPrefab, transform: spawnPoint);
         }
     }
-}
-public struct CustomerDemain
-{
-    private GameObject customerObj;
-    private RecipeSO recipeSO;
-    
 }

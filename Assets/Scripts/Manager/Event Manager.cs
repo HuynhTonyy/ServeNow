@@ -5,7 +5,8 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
-    public event Func<string, Vector3, Quaternion, Transform, GameObject>  onSpawnObject;
+    public event Func<string, string, Vector3?, Quaternion?, Transform,GameObject>  onSpawnObjectByName;
+    public event Func<GameObject, Vector3?, Quaternion?, Transform,GameObject>  onSpawnObjectByPrefab;
     public event Action<GameObject> onDespawnObject;
     public event Action onInteract;
     public event Action<Vector2> onInputMove;
@@ -27,9 +28,13 @@ public class EventManager : MonoBehaviour
         }
     }
     #region Pooling Event
-    public GameObject SpawnObject(string prefabName, Vector3 position, Quaternion rotation, Transform transform)
+    public GameObject SpawnObject(string prefabName, string folderName, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
-        return Instance.onSpawnObject?.Invoke(prefabName, position, rotation, transform);
+        return Instance.onSpawnObjectByName?.Invoke(prefabName,folderName, position, rotation, parent);
+    }
+    public GameObject SpawnObject(GameObject prefab, Vector3? position = null, Quaternion? rotation = null, Transform transform = null)
+    {
+        return Instance.onSpawnObjectByPrefab?.Invoke(prefab, position, rotation, transform);
     }
     public void DespawnObject(GameObject gameObject)
     {

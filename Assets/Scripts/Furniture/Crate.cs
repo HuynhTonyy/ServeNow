@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 public class Crate : MonoBehaviour, IInteractable
 {
     [SerializeField] private string prefabName;
@@ -7,7 +8,7 @@ public class Crate : MonoBehaviour, IInteractable
     {
         if (!currentObject)
         {
-            var spawnedObj = EventManager.Instance.SpawnObject(prefabName, Vector3.zero, Quaternion.identity, parent);
+            var spawnedObj = EventManager.Instance.SpawnObject(prefabName, FolderPrefabPath.Ingredients.ToString(), parent: parent);
             EventManager.Instance.PickupCarriedObject(spawnedObj);
             return;
         }

@@ -29,7 +29,7 @@ public class Container : ItemHolder
         {
             EventManager.Instance.DespawnObject(ingredientObjects);
             EventManager.Instance.DespawnObject(ingreObj);
-            ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.name, Vector3.zero, Quaternion.identity, transform);
+            ingredientObjects = EventManager.Instance.SpawnObject(newIngredientObjects.name, FolderPrefabPath.Ingredients.ToString(), parent: transform);
             return true;
         }
         ingredients.Remove(ingreObj);

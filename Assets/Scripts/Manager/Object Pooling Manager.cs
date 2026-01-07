@@ -23,21 +23,23 @@ public class ObjectPoolingManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.Instance.onSpawnObject += SpawnObject;
+        EventManager.Instance.onSpawnObjectByName += SpawnObject;
+        EventManager.Instance.onSpawnObjectByPrefab += SpawnObject;
         EventManager.Instance.onDespawnObject += DespawnObject;
     }
     void OnDisable()
     {
-        EventManager.Instance.onSpawnObject -= SpawnObject;
+        EventManager.Instance.onSpawnObjectByName -= SpawnObject;
+        EventManager.Instance.onSpawnObjectByPrefab -= SpawnObject;
         EventManager.Instance.onDespawnObject -= DespawnObject;
     }
     private void InitializePools()
     {
         var configManager = ConfigManager.Instance;
         if(!configManager) return;
-        InitializePool(configManager.ConfigContainers.Records,"Containers");
-        InitializePool(configManager.ConfigIngredients.Records,"Ingredients");
-        InitializePool(configManager.ConfigDishes.Records,"Dishes");
+        InitializePool(configManager.ConfigContainers.Records,FolderPrefabPath.Containers.ToString());
+        InitializePool(configManager.ConfigIngredients.Records,FolderPrefabPath.Ingredients.ToString());
+        InitializePool(configManager.ConfigDishes.Records,FolderPrefabPath.Dishes.ToString());
     }
 
     private void InitializePool<T>(List<T> list, string folderName) where T : Config, IPrefabConfig
@@ -59,14 +61,18 @@ public class ObjectPoolingManager : MonoBehaviour
         }
     }
     
-    private GameObject SpawnObject(string prefabName, Vector3 position, Quaternion rotation, Transform parent = null)
+    private GameObject SpawnObject(string prefabName,string folderName = null, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
-        if (!poolsDictionary.ContainsKey(prefabName))
+        if(!poolsDictionary.ContainsKey(prefabName))
         {
-#if UNITY_EDITOR
-            Debug.Log("Pool type not found! - " + prefabName);
-#endif
-            return null;
+            var folerNameVerified = folderName ?? FolderPrefabPath.Others.ToString();
+            folderDictionary.Add(prefabName,folerNameVerified);
+            var path = $"Prefabs/{folerNameVerified}/{prefabName}";
+            var newObj = Instantiate(Resources.Load<GameObject>(path), transform);
+            newObj.SetActive(false);
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+            newQueue.Enqueue(newObj);
+            poolsDictionary.Add(prefabName,newQueue);
         }
         if (poolsDictionary[prefabName].Count <= 0)
         {
@@ -74,13 +80,33 @@ public class ObjectPoolingManager : MonoBehaviour
             var newObj = Instantiate(Resources.Load<GameObject>(path), transform);
             newObj.SetActive(false);
             poolsDictionary[prefabName].Enqueue(newObj);
-#if UNITY_EDITOR
-            Debug.Log($"Create new {prefabName}");
-#endif
         }
         var obj = poolsDictionary[prefabName].Dequeue();
-        obj.transform.parent = parent ? parent : transform;
-        obj.transform.SetLocalPositionAndRotation(position, rotation);
+        obj.transform.SetParent(parent);
+        obj.transform.SetLocalPositionAndRotation(position ?? Vector3.zero, rotation ?? Quaternion.identity);
+        obj.SetActive(true);
+        return obj;
+    }
+    private GameObject SpawnObject(GameObject prefab, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    {
+        var prefabName = prefab.name;
+        if(!poolsDictionary.ContainsKey(prefabName))
+        {
+            var newObj = Instantiate(prefab, transform);
+            newObj.SetActive(false);
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+            newQueue.Enqueue(newObj);
+            poolsDictionary.Add(prefabName,newQueue);
+        }
+        if (poolsDictionary[prefabName].Count <= 0)
+        {
+            var newObj = Instantiate(prefab, transform);
+            newObj.SetActive(false);
+            poolsDictionary[prefabName].Enqueue(newObj);
+        }
+        var obj = poolsDictionary[prefabName].Dequeue();
+        obj.transform.SetParent(parent);
+        obj.transform.SetLocalPositionAndRotation(position ?? Vector3.zero, rotation ?? Quaternion.identity);
         obj.SetActive(true);
         return obj;
     }
@@ -101,26 +127,4 @@ public class ObjectPoolingManager : MonoBehaviour
         }
         storeObject.SetActive(false);
     }
-}
-public enum PoolType
-{
-    None,
-    Lettuce,
-    Potato,
-    Tomato,
-    Onion,
-    Plate,
-    Bowl,
-    DirtyPlate,
-    DirtyBowl,
-    Salad,
-    Customer,
-    Trash
-}
-[System.Serializable]
-public struct Pool
-{
-    public PoolType poolType;
-    public int size;
-    public GameObject prefab;
 }

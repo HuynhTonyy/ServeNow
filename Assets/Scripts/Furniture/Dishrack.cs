@@ -20,7 +20,7 @@ public class Dishrack : MonoBehaviour, IInteractable
         Vector3 currentPos = startPos.transform.localPosition;
         for (int i = 0; i < capacity; i++)
         {
-            var obj = EventManager.Instance.SpawnObject(prefabName, currentPos, Quaternion.identity, containerHolder.transform);
+            var obj = EventManager.Instance.SpawnObject(prefabName, FolderPrefabPath.Dishes.ToString(), currentPos, Quaternion.identity, containerHolder.transform);
             obj.SetActive(true);
             containedObjects.Add(obj);
             currentPos += spacing;
